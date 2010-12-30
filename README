@@ -1,0 +1,36 @@
+collectd-diskstats is a collectd plugin (written in Python) that reads the
+Linux 2.6 /proc/diskstats "file" and records detailed device statistics.
+
+It is a superset of the "disk" plugin that ships with collectd. The main
+difference is it records additional fields present in /proc/diskstats.
+
+This plugin requires Collectd's Python plugin, which was introduced in
+collectd 4.9. To configure, drop the diskstats.py file into a directory
+where collectd is configured to find Python modules (ModulePath param).
+
+The plugin must be explicitly told which disks to monitor. This is done
+by defining "Disk" parameters inside the <Module> block for diskstats.
+One "Disk" parameter per device. To see which devices are available, just
+`cat /proc/diskstats`.
+
+Here is an example configuration:
+
+  <Plugin python>
+      ModulePath "/path/to/modules"
+      Import "diskstats"
+
+      <Module diskstats>
+          Disk sda
+          Disk sda1
+      </Module>
+  </Plugin>
+
+The plugin produces data for the "diskstats" plugin. The plugin instance
+will be the device name. The plugin will write gauge data for 10 types. The
+type instance corresponds to the fields in /proc/iostats.
+
+The Documentation/iostats.txt file in the Linux kernel source tree
+(http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=blob_plain;f=Documentation/iostats.txt;hb=refs/tags/v2.6.36)
+describes the fields in /proc/diskstats and can help you make sense of the
+data.
+
