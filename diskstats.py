@@ -43,7 +43,7 @@ field_map = {
     3: 'sectors_read',
     4: 'reading_milliseconds',
     5: 'writes_completed',
-    # this field not documented
+    6: 'writes_merged',
     7: 'sectors_written',
     8: 'writing_milliseconds',
     9: 'io_inprogress',
